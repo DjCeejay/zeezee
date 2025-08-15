@@ -265,21 +265,22 @@ body {
 .cta-btn {
     background: var(--champagne-gold);
     color: var(--charcoal-black);
-    padding: 1rem 2.5rem;
+    padding: 0.8rem 2rem; /* Reduced padding */
     text-decoration: none;
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
-    font-size: 1.1rem;
-    border-radius: 50px;
+    font-size: 0.9rem; /* Reduced font size */
+    border-radius: 30px;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px; /* Reduced letter spacing */
     transition: all 0.3s ease;
     opacity: 0;
     animation: fadeButton 1.5s ease-out 1s forwards;
     box-shadow: 0 4px 15px rgba(212, 176, 106, 0.2);
-    margin-top: -2rem; /* Added negative margin to pull button up */
-    position: relative; /* Added for better positioning */
+    margin-top: -3rem;
+    position: relative;
     z-index: 3;
+    min-width: 160px; /* Added minimum width */
 }
 
 .cta-btn:hover {
@@ -323,8 +324,15 @@ body {
     }
     
     .cta-btn {
-        padding: 0.9rem 2rem;
-        font-size: 1rem;
+        padding: 0.7rem 1.8rem;
+        font-size: 0.8rem;
+        min-width: 140px;
+    }
+}
+
+@supports (-webkit-touch-callout: none) {
+    .cta-btn {
+        padding: 0.9rem 2rem; /* Slightly larger padding for iOS touch targets */
     }
 }
 
@@ -692,18 +700,20 @@ body {
 .explore-btn {
     background: transparent;
     color: var(--champagne-gold);
-    border: 2px solid var(--champagne-gold);
-    padding: 1rem 2.5rem;
+    border: 1px solid var(--champagne-gold); /* Reduced border width */
+    padding: 0.7rem 1.5rem; /* Reduced padding */
     font-family: 'Poppins', -apple-system, sans-serif;
-    font-size: 0.9rem;
+    font-size: 0.8rem; /* Reduced font size */
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px; /* Reduced letter spacing */
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 50px;
+    border-radius: 25px; /* Reduced border radius */
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
     outline: none;
+    display: inline-block;
+    min-width: 120px; /* Added minimum width */
 }
 
 .explore-btn:hover {
@@ -764,7 +774,7 @@ body {
     }
     
     .card-content {
-        padding: 1.5rem 1rem;
+        padding: 1.2rem 1rem;
     }
     
     .card-content h3 {
@@ -779,10 +789,10 @@ body {
     }
     
     .explore-btn {
-        width: 100%;
-        max-width: none;
-        padding: 0.8rem 0;
-        font-size: 0.8rem;
+        min-width: 100px;
+        width: none;
+        padding: 0.6rem 1rem;
+        font-size: 0.75rem;
     }
 }
 
@@ -804,6 +814,10 @@ body {
     
     .card-content {
         background: rgba(0, 0, 0, 0.9);
+    }
+
+    .explore-btn {
+        padding: 0.8rem 1.5rem; /* Slightly larger for better touch targets on iOS */
     }
     
     .explore-btn:active {
