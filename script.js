@@ -27,38 +27,104 @@ document.addEventListener('click', (e) => {
 });
 
 // Select elements
+// ...existing code...
+
+// Select elements (guarded — carousel may not be present on every page)
 const track = document.querySelector('.carousel-track');
-const slides = Array.from(track.children);
-const prevButton = document.querySelector('.prev-btn');
-const nextButton = document.querySelector('.next-btn');
 
-let currentSlide = 0;
-const slideCount = slides.length;
+if (track) {
+    const slides = Array.from(track.children);
+    const prevButton = document.querySelector('.prev-btn');
+    const nextButton = document.querySelector('.next-btn');
 
-// Function to go to a specific slide
-function goToSlide(index) {
-    // Wrap around if index is out of bounds
-    if (index < 0) {
-        index = slideCount - 1;
-    } else if (index >= slideCount) {
-        index = 0;
+    let currentSlide = 0;
+    const slideCount = slides.length;
+
+    // Function to go to a specific slide
+    function goToSlide(index) {
+        // Wrap around if index is out of bounds
+        if (index < 0) {
+            index = slideCount - 1;
+        } else if (index >= slideCount) {
+            index = 0;
+        }
+
+        // Move the track to show the selected slide
+        track.style.transform = `translateX(-${index * 100}%)`;
+        currentSlide = index;
     }
 
-    // Move the track to show the selected slide
-    track.style.transform = `translateX(-${index * 100}%)`;
-    currentSlide = index;
+    // Event listeners for navigation buttons (only attach if buttons exist)
+    if (nextButton) {
+        nextButton.addEventListener('click', () => {
+            goToSlide(currentSlide + 1);
+        });
+    }
+    if (prevButton) {
+        prevButton.addEventListener('click', () => {
+            goToSlide(currentSlide - 1);
+        });
+    }
+
+    // Auto-slide every 5 seconds (only if there's more than one slide)
+    if (slideCount > 1) {
+        setInterval(() => {
+            goToSlide(currentSlide + 1);
+        }, 5000);
+    }
 }
 
-// Event listeners for navigation buttons
-nextButton.addEventListener('click', () => {
-    goToSlide(currentSlide + 1);
+// ...existing code...
+
+// =========================
+// COLLECTION POPUPS
+// =========================
+
+// Grab all "View Collection" buttons
+const exploreButtons = document.querySelectorAll(".explore-btn");
+// Grab all modals
+const modals = document.querySelectorAll(".collection-modal");
+// Grab all close buttons
+const closeButtons = document.querySelectorAll(".close-btn");
+
+// Function to open modal
+function openModal(category) {
+    const modal = document.getElementById(`modal-${category}`);
+    if (modal) {
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden"; // Prevent background scroll
+    }
+}
+
+// Function to close modal
+function closeModal(modal) {
+    modal.classList.remove("active");
+    document.body.style.overflow = ""; // Restore scroll
+}
+
+// Attach event listeners to "View Collection" buttons
+exploreButtons.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+        const card = e.target.closest(".category-card");
+        const category = card.getAttribute("data-category");
+        openModal(category);
+    });
 });
 
-prevButton.addEventListener('click', () => {
-    goToSlide(currentSlide - 1);
+// Attach event listeners to close buttons
+closeButtons.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+        const modal = e.target.closest(".collection-modal");
+        closeModal(modal);
+    });
 });
 
-// Auto-slide every 5 seconds
-setInterval(() => {
-    goToSlide(currentSlide + 1);
-}, 5000);
+// Close modal when clicking outside modal content
+modals.forEach((modal) => {
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            closeModal(modal);
+        }
+    });
+});
+
